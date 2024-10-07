@@ -1,0 +1,54 @@
+function l(a, _)
+            local b = Instance.new("Weld")
+            b.Part0 = a.Parent
+            b.Part1 = _.Parent
+            b.C0 = a.CFrame
+            b.C1 = _.CFrame
+            b.Parent = a.Parent
+            return b
+        end
+        local function b(a, _, c, b, e, d)
+            local f = Instance.new("Weld")
+            f.Name = a
+            f.Part0 = c
+            f.Part1 = b
+            f.C0 = e
+            f.C1 = d
+            f.Parent = _
+            return f
+        end
+        local function c(_, a)
+            for _, _ in pairs(_:GetChildren()) do
+                if _:IsA("Attachment") and _.Name == a then
+                    return _
+                elseif not _:IsA("Accoutrement") and not _:IsA("Tool") then
+                    local _ = c(_, a)
+                    if _ then
+                        return _
+                    end
+                end
+            end
+        end
+        function k(_, a)
+            a.Parent = _
+            local d = a:FindFirstChild("Handle")
+            if d then
+                local e = d:FindFirstChildOfClass("Attachment")
+                if e then
+                    local _ = c(_, e.Name)
+                    if _ then
+                        l(_, e)
+                    end
+                else
+                    local c = _:FindFirstChild("Head")
+                    if c then
+                        local _ = CFrame.new(0, 0.5, 0)
+                        local a = a.AttachmentPoint
+                        b("HeadWeld", c, c, d, _, a)
+                    end
+                end
+            end
+        end
+        local _ = txt
+        local _ = game:GetObjects("rbxassetid://" .. tostring(_))[1]
+        k(game.Players.LocalPlayer.Character, _)
